@@ -133,7 +133,7 @@ namespace JotunnModExample
                         m_amount = 1
                     }
             };
-            CustomRecipe CR = new CustomRecipe(recipe, false, false);
+            CustomItemRecipe CR = new CustomItemRecipe(recipe, false, false);
             ItemManager.Instance.AddRecipe(CR);
         }
 
@@ -157,7 +157,7 @@ namespace JotunnModExample
             ItemManager.Instance.AddItem(rune);
 
             // Create and add a recipe for the custom item
-            CustomRecipe runeRecipe = new CustomRecipe(new RecipeConfig()
+            CustomItemRecipe runeRecipe = new CustomItemRecipe(new ItemConfig()
             {
                 Item = "BlueprintRune",
                 Amount = 1,
@@ -169,28 +169,18 @@ namespace JotunnModExample
             ItemManager.Instance.AddRecipe(runeRecipe);
         }
 
-        private void addEmptyPiece()
-        {
-            CustomPiece CP = new CustomPiece("$piece_lul", "Hammer");
-            var piece = CP.Piece;
-            piece.m_icon = testSprite;
-            var prefab = CP.PiecePrefab;
-            prefab.GetComponent<MeshRenderer>().material.mainTexture = testTex;
-            PieceManager.Instance.AddPiece(CP);
-        }
-
         private void CreateRunePieces()
         {
             // Create and add custom pieces
             GameObject makebp_prefab = BlueprintRuneBundle.LoadAsset<GameObject>("make_blueprint");
-            CustomPiece makebp = new CustomPiece(makebp_prefab, new PieceConfig
+            CustomPieceRecipe makebp = new CustomPieceRecipe(makebp_prefab, new PieceConfig
             {
                 PieceTable = "_BlueprintPieceTable",
                 AllowedInDungeons = false
             });
             PieceManager.Instance.AddPiece(makebp);
             GameObject placebp_prefab = BlueprintRuneBundle.LoadAsset<GameObject>("piece_blueprint");
-            CustomPiece placebp = new CustomPiece(placebp_prefab, new PieceConfig
+            CustomPieceRecipe placebp = new CustomPieceRecipe(placebp_prefab, new PieceConfig
             {
                 PieceTable = "_BlueprintPieceTable",
                 AllowedInDungeons = true,
@@ -202,6 +192,18 @@ namespace JotunnModExample
             blueprintRuneLocalizations();
             PieceManager.Instance.AddPiece(placebp);
         }
+
+        private void addEmptyPiece()
+        {
+            CustomPieceRecipe CP = new CustomPieceRecipe("$piece_lul", "Hammer");
+            var piece = CP.Piece;
+            piece.m_icon = testSprite;
+            var prefab = CP.PiecePrefab;
+            prefab.GetComponent<MeshRenderer>().material.mainTexture = testTex;
+            PieceManager.Instance.AddPiece(CP);
+        }
+
+        
 
         private void addMockedItems()
         {
@@ -223,7 +225,7 @@ namespace JotunnModExample
                     MockRequirement.Create("Iron", 4),
                 };
                 recipe.m_resources = ingredients.ToArray();
-                CustomRecipe CR = new CustomRecipe(recipe, true, true);
+                CustomItemRecipe CR = new CustomItemRecipe(recipe, true, true);
                 ItemManager.Instance.AddRecipe(CR);
 
                 //Enable BoneReorder
